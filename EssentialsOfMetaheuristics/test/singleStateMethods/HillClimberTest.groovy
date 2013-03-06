@@ -22,4 +22,9 @@ class HillClimberTest extends Specification {
 		hillClimber.maximize(onesMax) != [1]*NUM_BITS
 
 	}
+    def "should be able to create a Node with children"() {
+        def root = new Node()
+        expect:
+        root != null
+        }
 }

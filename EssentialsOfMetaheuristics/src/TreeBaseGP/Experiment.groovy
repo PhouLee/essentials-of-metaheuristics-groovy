@@ -12,5 +12,10 @@ class Experiment {
         println root.toList()
         println root.toList()
         
+        List abc = [1]
+        println abc.size()
+        println abc.remove(0)
+        print "yolo^2/3".replaceAll("[]", "");
+        
     }
 }

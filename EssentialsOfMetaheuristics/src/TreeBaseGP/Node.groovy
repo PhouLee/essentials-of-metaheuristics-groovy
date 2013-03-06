@@ -7,12 +7,12 @@ class Node {
     def value
     static ArrayList<Node> listOfNodes = new ArrayList<Node>()
     
-    def setLeftChild(value, arity) {
-       this.leftChild = new Node(value: value, arity: arity, depth: this.depth + 1, parent: this) 
+    def setLeftChild() {
+       this.leftChild = new Node(depth: this.depth + 1, parent: this) 
     }
     
-    def setRightChild(value, arity) {
-        this.rightChild = new Node(value: value, arity: arity, depth: this.depth + 1, parent: this)
+    def setRightChild() {
+        this.rightChild = new Node(depth: this.depth + 1, parent: this)
      }
     
     String toString() {

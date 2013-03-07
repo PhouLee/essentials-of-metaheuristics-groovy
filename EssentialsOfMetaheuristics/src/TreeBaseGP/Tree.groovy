@@ -1,4 +1,5 @@
 package TreeBaseGP
+import java.util.ArrayList;
 import java.util.Random
 
 //TODO:
@@ -7,13 +8,15 @@ import java.util.Random
 class Tree {
     Random random = new Random()
     Node root
-    Integer size, maxDepth = random.nextInt(11);
+    Integer size, maxInteger = 11, maxDepth = random.nextInt(11);
     List innerNodes, terminalNodes
     List arityTwo = ["+", "-","/","*"]
+    List operators = ["sin","cos","tan","log","exp","abs", "+", "-","/","*"]
+    
     def makeTree(innerNodes, terminalNodes) {
         this.innerNodes = innerNodes
         this.terminalNodes = terminalNodes
-        if(root == null) root = new Node(depth:0)
+        root = new Node(depth:0)
         this.setValue(root)
     }
     
@@ -22,13 +25,14 @@ class Tree {
             //inner nodes, +, -, /, *, log, cos, sin, tan, exp, pow, abs, 
             if(!innerNodes.isEmpty()){
                 node.value = innerNodes.remove(random.nextInt(innerNodes.size()))
-                if(arityTwo.contains(node.value)) node.arity = 2
-                else node.arity = 1
             }
             //create random inner node
             else {
-                
+                node.value = operators.get(random.nextInt(innerNodes.size()))
             }
+            
+            if(arityTwo.contains(node.value)) node.arity = 2
+            else node.arity = 1
             
             setValue(node.setLeftChild())
             if(node.arity == 2) setValue(node.setRightChild())
@@ -41,10 +45,18 @@ class Tree {
             }
             //create random terminal node
             else{
-                
+               node.value = random.nextInt(maxInteger)         
             }
         }
-        
+    }
+    
+    def evaluate(variables) {
+        root.variables = variables
+        root.evaluate()
+    }
+    
+    public ArrayList<Node> toList() {
+        root.toList()
     }
     
     

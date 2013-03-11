@@ -47,22 +47,33 @@ class Node {
     
     private evaluate() {
         switch(value) {
-            case "+": evaluate(leftChild) + evaluate(rightChild)
-            case "-": evaluate(leftChild) - evaluate(rightChild)
-            case "*": evaluate(leftChild) * evaluate(rightChild)
-            case "/": evaluate(leftChild) / evaluate(rightChild)
-            case "sin": Math.sin(evaluate(leftChild))
-            case "cos": Math.cos(evaluate(leftChild))
-            case "tan": Math.tan(evaluate(leftChild))
-            case "log": Math.sin(evaluate(leftChild))
-            case "abs": Math.abs(evaluate(leftChild))
-            case "exp": Math.exp(evaluate(leftChild))
+            case "+": this.leftChild.evaluate() + this.rightChild.evaluate()
+            break
+            case "-": leftChild.evaluate() - rightChild.evaluate()
+            break
+            case "*": leftChild.evaluate() * rightChild.evaluate()
+            break
+            case "/": leftChild.evaluate() / rightChild.evaluate()
+            break
+            case "sin": Math.sin(leftChild.evaluate())
+            break
+            case "cos": Math.cos(leftChild.evaluate())
+            break
+            case "tan": Math.tan(leftChild.evaluate())
+            break
+            case "log": Math.sin(leftChild.evaluate())
+            break
+            case "abs": Math.abs(leftChild.evaluate())
+            break
+            case "exp": Math.exp(leftChild.evaluate())
+            break
             default: if(value.class.toString() == "class java.lang.String"){
                          variables.get(value)
                      }
                      else{
                          value
                      }
+            break
         }
     }
     

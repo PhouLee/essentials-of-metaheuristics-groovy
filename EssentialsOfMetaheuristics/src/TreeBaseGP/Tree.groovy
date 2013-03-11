@@ -8,10 +8,10 @@ import java.util.Random
 class Tree {
     Random random = new Random()
     Node root
-    Integer size, maxInteger = 11, maxDepth = random.nextInt(11);
+    Integer size = 0, maxInteger = 11, maxDepth = random.nextInt(11);
     List innerNodes, terminalNodes
-    List arityTwo = ["+", "-","/","*"]
-    List operators = ["sin","cos","tan","log","exp","abs", "+", "-","/","*"]
+    static List arityTwo = ["+", "-","/","*"]
+    static List operators = ["sin","cos","tan","log","exp","abs", "+", "-","/","*"]
     
     def makeTree(innerNodes, terminalNodes) {
         this.innerNodes = innerNodes
@@ -20,7 +20,7 @@ class Tree {
         this.setValue(root)
     }
     
-    def setValue(Node node) {
+    private setValue(Node node) {
         if(node.depth != maxDepth){
             //inner nodes, +, -, /, *, log, cos, sin, tan, exp, pow, abs, 
             if(!innerNodes.isEmpty()){
@@ -28,7 +28,7 @@ class Tree {
             }
             //create random inner node
             else {
-                node.value = operators.get(random.nextInt(innerNodes.size()))
+                node.value = operators.get(random.nextInt(operators.size()))
             }
             
             if(arityTwo.contains(node.value)) node.arity = 2
@@ -48,6 +48,7 @@ class Tree {
                node.value = random.nextInt(maxInteger)         
             }
         }
+        size++
     }
     
     def evaluate(variables) {
@@ -59,6 +60,8 @@ class Tree {
         root.toList()
     }
     
-    
+    def size() {
+        size
+    }
 
 }

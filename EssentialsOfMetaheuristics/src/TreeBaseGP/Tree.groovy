@@ -8,7 +8,7 @@ import java.util.Random
 class Tree {
     Random random = new Random()
     Node root
-    Integer size = 0, maxInteger = 11, maxDepth = random.nextInt(11);
+    Integer size = 0, maxInteger = 11, maxDepth = random.nextInt(11), crossoverDepth;
     List innerNodes, terminalNodes
     static List arityTwo = ["+", "-","/","*"]
     static List operators = ["sin","cos","tan","log","exp","abs", "+", "-","/","*"]
@@ -63,5 +63,41 @@ class Tree {
     def size() {
         size
     }
-
+    
+    def crossover(Tree treeOne, Tree treeTwo) {
+        // never selects a terminal node
+        crossoverDepth = random.nextInt(treeOne.maxDepth-1)
+        Node treeOneNode = findANodeAt(treeOne.root, crossoverDepth)
+        crossoverDepth = random.nextInt(treeTwo.maxDepth-1)
+        Node treeTwoNode = findANodeAt(treeTwo.root, crossoverDepth)
+        
+        Node parentA = treeOneNode.parent
+        Node parentB = treeTwoNode.parent
+        
+        parentA.changeChild(treeOneNode, treeTwoNode)
+        parentB.changeChild(treeTwoNode, treeOneNode)
+        treeOneNode.changeParent(parentB)
+        treeTwoNode.changeParent(parentA)
+        
+        fixDepth(parentA)
+        fixDepth(parentB)
+    }
+    
+    def findANodeAt(Node node, depth){
+        if(node.depth != depth){
+            if(node.arity == 2 && random.nextInt(2) == 1){
+                findANodeAt(node.rightChild, depth)
+            }
+            else findANodeAt(node.leftChild, depth)
+        }
+        else node
+    }
+    
+    private def fixDepth(Node node){
+        node.depth = node.parent.depth + 1
+        if(node.leftChild != null && node.leftChild.depth != (node.depth+1)) fixDepth(node.leftChild)
+        if(node.rightChild != null && node.rightChild.depth != (node.depth+1)) fixDepth(node.rightChild)
+    }
+    
+    
 }

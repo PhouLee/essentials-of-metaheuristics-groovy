@@ -24,4 +24,8 @@ class TreeTest extends Specification{
         tree.root.rightChild.toString() == "a" | tree.root.rightChild.value == 6
     }
     
+    def "should be able to do crossover"() {
+       
+    }
+    
 }

@@ -45,6 +45,17 @@ class Node {
         listOfNodes
     }
     
+    def changeParent(Node newParent){
+        this.parent = newParent
+    }
+    
+    def changeChild(Node oldChild, Node newChild) {
+        if(leftChild == oldChild) {
+            leftChild == newChild
+        }
+        else rightChild == newChild
+    }
+    
     private evaluate() {
         switch(value) {
             case "+": this.leftChild.evaluate() + this.rightChild.evaluate()

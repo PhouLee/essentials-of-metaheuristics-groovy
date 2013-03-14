@@ -66,21 +66,22 @@ class Tree {
     
     def crossover(Tree treeOne, Tree treeTwo) {
         // never selects a terminal node
-        crossoverDepth = random.nextInt(treeOne.maxDepth-1)
-        Node treeOneNode = findANodeAt(treeOne.root, crossoverDepth)
-        crossoverDepth = random.nextInt(treeTwo.maxDepth-1)
+        crossoverDepth = random.nextInt(treeOne.maxDepth)
+		Node treeOneNode = findANodeAt(treeOne.root, crossoverDepth)
+        crossoverDepth = random.nextInt(treeTwo.maxDepth)		
         Node treeTwoNode = findANodeAt(treeTwo.root, crossoverDepth)
-        
+
         Node parentA = treeOneNode.parent
         Node parentB = treeTwoNode.parent
+		println "parentA: " + parentA
+		println "parentB: " + parentB
+        //parentA.changeChild(treeOneNode, treeTwoNode)
+       // parentB.changeChild(treeTwoNode, treeOneNode)
+       // treeOneNode.changeParent(parentB)
+       // treeTwoNode.changeParent(parentA)
         
-        parentA.changeChild(treeOneNode, treeTwoNode)
-        parentB.changeChild(treeTwoNode, treeOneNode)
-        treeOneNode.changeParent(parentB)
-        treeTwoNode.changeParent(parentA)
-        
-        fixDepth(parentA)
-        fixDepth(parentB)
+       // fixDepth(parentA)
+        //fixDepth(parentB)
     }
     
     def findANodeAt(Node node, depth){

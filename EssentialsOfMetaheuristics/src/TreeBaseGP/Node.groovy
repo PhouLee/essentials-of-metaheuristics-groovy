@@ -1,7 +1,6 @@
 package TreeBaseGP
 
 class Node {
-
 	Node parent, leftChild, rightChild
 	Integer depth, arity
 	def value
@@ -47,15 +46,11 @@ class Node {
 		listOfNodes
 	}
 
-	def changeParent(Node newParent){
-		this.parent = newParent
-	}
-
-	def changeChild(Node oldChild, Node newChild) {
+	def swapSubTree(Node oldChild, Node newChild) {
 		if(leftChild == oldChild) {
-			leftChild = newChild
+			this.setLeftChild(newChild)
 		}
-		else rightChild = newChild
+		else this.setRightChild(newChild)
 	}
 
 	private evaluate() {

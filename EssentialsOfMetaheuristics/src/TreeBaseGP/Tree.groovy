@@ -8,7 +8,7 @@ import java.util.Random
 class Tree {
     Random random = new Random()
     Node root
-    Integer size = 0, maxInteger = 11, maxDepth = random.nextInt(11), crossoverDepth;
+    Integer size = 0, maxInteger = 11, maxDepth = random.nextInt(11);
     List innerNodes, terminalNodes
     static List arityTwo = ["+", "-","/","*"]
     static List operators = ["sin","cos","tan","log","exp","abs", "+", "-","/","*"]
@@ -64,29 +64,43 @@ class Tree {
         size
     }
     
-    def crossover(Tree treeOne, Tree treeTwo) {
-        // never selects a terminal node
-        crossoverDepth = random.nextInt(treeOne.maxDepth)
-		Node treeOneNode = findANodeAt(treeOne.root, crossoverDepth)
-        crossoverDepth = random.nextInt(treeTwo.maxDepth)		
-        Node treeTwoNode = findANodeAt(treeTwo.root, crossoverDepth)
+    def crossover(Tree treeA, Tree treeB) {
+		Node nodeA = findANodeAt(treeA.root, getCrossoverDepth(treeA))
+        Node nodeB = findANodeAt(treeB.root, getCrossoverDepth(treeB))
 
-        Node parentA = treeOneNode.parent
-        Node parentB = treeTwoNode.parent
-		println "parentA: " + parentA
-		println "parentB: " + parentB
-        //parentA.changeChild(treeOneNode, treeTwoNode)
-       // parentB.changeChild(treeTwoNode, treeOneNode)
-       // treeOneNode.changeParent(parentB)
-       // treeTwoNode.changeParent(parentA)
+        Node parentA = nodeA.parent
+        Node parentB = nodeB.parent
+		println "First node & depth: " + nodeA + " || " + nodeA.depth
+		println "Second node & depth: " + nodeB + " || " + nodeB.depth
+
+        parentA.swapSubTree(nodeA, nodeB)
+        parentB.swapSubTree(nodeB, nodeA)
+		
+		// treeOneNode.changeParent(parentB)
+        // treeTwoNode.changeParent(parentA)
         
-       // fixDepth(parentA)
-        //fixDepth(parentB)
+        // fixDepth(parentA)
+        // fixDepth(parentB)
     }
+	
+	/*
+	 * Finds the appropriate tree depth for crossover
+	 * Ignores the terminal and root nodes
+	 */
+	private Integer getCrossoverDepth(Tree tree) {
+		Integer crossoverDepth = random.nextInt(tree.maxDepth)
+		if(crossoverDepth == 0) {
+			crossoverDepth++
+		}		
+		crossoverDepth
+	}
     
-    def findANodeAt(Node node, depth){
+	/*
+	 * Randomly selects node at the given depth
+	 */
+    private Node findANodeAt(Node node, depth) {
         if(node.depth != depth){
-            if(node.arity == 2 && random.nextInt(2) == 1){
+            if(node.arity == 2 && random.nextInt(2) == 1) {
                 findANodeAt(node.rightChild, depth)
             }
             else findANodeAt(node.leftChild, depth)
@@ -94,7 +108,7 @@ class Tree {
         else node
     }
     
-    private def fixDepth(Node node){
+    private def fixDepth(Node node) {
         node.depth = node.parent.depth + 1
         if(node.leftChild != null && node.leftChild.depth != (node.depth+1)) fixDepth(node.leftChild)
         if(node.rightChild != null && node.rightChild.depth != (node.depth+1)) fixDepth(node.rightChild)

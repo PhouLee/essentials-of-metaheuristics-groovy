@@ -2,9 +2,6 @@ package TreeBaseGP
 import java.util.ArrayList;
 import java.util.Random
 
-//TODO:
-//powers
-
 class Tree {
     Random random = new Random()
     Node root
@@ -22,31 +19,24 @@ class Tree {
     
     private setValue(Node node) {
         if(node.depth != maxDepth){
-            //inner nodes, +, -, /, *, log, cos, sin, tan, exp, pow, abs, 
-            if(!innerNodes.isEmpty()){
-                node.value = innerNodes.remove(random.nextInt(innerNodes.size()))
+           if(!innerNodes.isEmpty()){
+                node.value = innerNodes.get(random.nextInt(innerNodes.size()))
             }
-            //create random inner node
-            else {
-                node.value = operators.get(random.nextInt(operators.size()))
-            }
-            
-            if(arityTwo.contains(node.value)) node.arity = 2
-            else node.arity = 1
-            
-            setValue(node.setLeftChild())
-            if(node.arity == 2) setValue(node.setRightChild())
+           else{
+               node.value = operators.get(random.nextInt(operators.size()))
+           }
+           if(arityTwo.contains(node.value)) node.arity = 2
+           else node.arity = 1
+           
+           setValue(node.setLeftChild(new Node(depth:node.depth+1)))
+           if(node.arity == 2) setValue(node.setRightChild(new Node(depth:node.depth+1)))
         }
-        else {
-            //terminal nodes, constants or variables
-            node.arity = 0
-            if(!terminalNodes.isEmpty()){
-               node.value = terminalNodes.remove(random.nextInt(terminalNodes.size()))
-            }
-            //create random terminal node
-            else{
-               node.value = random.nextInt(maxInteger)         
-            }
+        else{
+            
+           node.value = random.nextInt(maxInteger)
+           if(random.nextInt(2) == 0 && !terminalNodes.isEmpty()){
+               node.value = terminalNodes.get(random.nextInt(terminalNodes.size()))
+           }
         }
         size++
     }
@@ -65,8 +55,8 @@ class Tree {
     }
     
     def crossover(Tree treeA, Tree treeB) {
-		Node nodeA = findANodeAt(treeA.root, getCrossoverDepth(treeA))
-        Node nodeB = findANodeAt(treeB.root, getCrossoverDepth(treeB))
+		Node nodeA = findANodeAt(treeA.root, getRandomDepth(treeA))
+        Node nodeB = findANodeAt(treeB.root, getRandomDepth(treeB))
 
         Node parentA = nodeA.parent
         Node parentB = nodeB.parent
@@ -87,13 +77,18 @@ class Tree {
 	 * Finds the appropriate tree depth for crossover
 	 * Ignores the terminal and root nodes
 	 */
-	private Integer getCrossoverDepth(Tree tree) {
-		Integer crossoverDepth = random.nextInt(tree.maxDepth)
-		if(crossoverDepth == 0) {
-			crossoverDepth++
+	private Integer getRandomDepth(Tree tree) {
+		Integer randomDepth = random.nextInt(tree.maxDepth)
+		if(randomDepth == 0) {
+			randomDepth++
 		}		
-		crossoverDepth
+		randomDepth
 	}
+    
+    def mutuate(Tree tree) {
+        Node node = findANodeAt(tree.root, getRandomDepth(tree))
+       
+    }
     
 	/*
 	 * Randomly selects node at the given depth

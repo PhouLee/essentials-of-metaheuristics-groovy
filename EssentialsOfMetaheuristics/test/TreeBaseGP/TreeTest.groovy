@@ -18,6 +18,8 @@ class TreeTest extends Specification{
         List outer = ["a", 6]
         Tree tree = new Tree(maxDepth:1)
         tree.makeTree(["+"],["a", 6])
+        println "this is left " + tree.root.leftChild
+        println "than right " + tree.root.rightChild
         expect:
         tree.root.toString() == inner.get(0)
         tree.root.leftChild.toString() == "a" | tree.root.leftChild.value == 6

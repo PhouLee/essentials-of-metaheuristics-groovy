@@ -4,8 +4,8 @@ import spock.lang.Specification
 class NodeTest extends Specification {
     def "should be able to create a Node with children"() {
         def root = new Node(arity: 1, depth:0, value:"+")
-        def rootLeft = root.setLeftChild()
-        def rootRight = root.setRightChild()
+        def rootLeft = root.setLeftChild(new Node())
+        def rootRight = root.setRightChild(new Node())
         expect:
         root != null
         rootLeft != null
@@ -13,8 +13,8 @@ class NodeTest extends Specification {
         }
     def "should be able to find the root from a linked node"() {
         def root = new Node(arity: 1, depth:0, value:"+")
-        def rootRight = root.setRightChild()
-        def nodeAt = rootRight.setRightChild()
+        def rootRight = root.setRightChild(new Node())
+        def nodeAt = rootRight.setRightChild(new Node())
         expect:
         nodeAt.root() == root
     }
@@ -25,8 +25,10 @@ class NodeTest extends Specification {
     }
     def "should be able to make an ArrayList out of the current node"() {
         def root = new Node(arity: 1, depth:0, value:"+")
-        def rootLeft = root.setLeftChild()
-        def rootRight = root.setRightChild()
+        root.setLeftChild(new Node(arity: 0, depth:1, value:"4"))
+        root.setRightChild(new Node(arity:0, depth:1, value:"5"))
+        def rootLeft = root.leftChild
+        def rootRight = root.rightChild
         ArrayList<Node> list = root.makeList()
         ArrayList<Node> expected = new ArrayList<Node>()
         expected.add(rootLeft)

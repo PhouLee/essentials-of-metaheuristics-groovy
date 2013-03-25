@@ -10,11 +10,13 @@ class Node {
 	def setLeftChild(Node node) {
 		this.leftChild = node
 		node.parent = this
+        node
 	}
 
 	def setRightChild(Node node) {
 		this.rightChild = node
 		node.parent = this
+        node
 	}
 
 	String toString() {
